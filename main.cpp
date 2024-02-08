@@ -1,5 +1,13 @@
 #include <iostream>
+#include <ncurses.h>
 
 int main() {
-    std::cout << "Hello world\n";
+    initscr();
+    noecho();
+    curs_set(0);
+
+    printw("Hello world");
+    getch();
+
+    endwin();
 }
