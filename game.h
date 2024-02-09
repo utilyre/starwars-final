@@ -17,7 +17,7 @@ private:
     std::vector<Vec2> m_bullet_translations;
 
     void render() const;
-    void input();
+    bool input();
     void integrate();
 
     void move_player(int dy, int dx);

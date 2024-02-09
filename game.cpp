@@ -20,7 +20,11 @@ void Game::start()
     while (true)
     {
         render();
-        input();
+        if (!input())
+        {
+            return;
+        }
+
         integrate();
     }
 }
@@ -43,12 +47,12 @@ void Game::render() const
     }
 }
 
-void Game::input()
+bool Game::input()
 {
     switch (getch())
     {
     case 'q':
-        return;
+        return false;
     case 'a':
         move_player(0, -1);
         break;
@@ -57,7 +61,10 @@ void Game::input()
         break;
     case ' ':
         shoot();
+        break;
     }
+
+    return true;
 }
 
 void Game::integrate()
