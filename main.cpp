@@ -64,6 +64,9 @@ int main()
 
         switch (getch())
         {
+        case 'q':
+            endwin();
+            exit(0);
         case 'a':
             game.move_player(0, -1);
             break;
@@ -74,4 +77,5 @@ int main()
     }
 
     endwin();
+    return 0;
 }
