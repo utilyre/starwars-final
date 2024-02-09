@@ -31,7 +31,11 @@ void Game::start()
         case 'd':
             move_player(0, 1);
             break;
+        case ' ':
+            shoot();
         }
+
+        integrate();
     }
 }
 
@@ -41,16 +45,23 @@ void Game::render() const
     {
         for (int j = 0; j < m_size; j++)
         {
-            mvprintw(i, 2 * j, " ");
-            if (m_player_translation.y == i && m_player_translation.x == j)
-            {
-                printw("#");
-            }
-            else
-            {
-                printw("-");
-            }
+            mvprintw(i, 2 * j + 1, "-");
         }
+    }
+
+    mvprintw(m_player_translation.y, 2 * m_player_translation.x + 1, "#");
+
+    for (Vec2 translation : m_bullet_translations)
+    {
+        mvprintw(translation.y, 2 * translation.x + 1, "^");
+    }
+}
+
+void Game::integrate()
+{
+    for (Vec2 &translation : m_bullet_translations)
+    {
+        translation.y--;
     }
 }
 
@@ -58,4 +69,9 @@ void Game::move_player(int dy, int dx)
 {
     m_player_translation.y = std::clamp(m_player_translation.y + dy, 0, m_size - 1);
     m_player_translation.x = std::clamp(m_player_translation.x + dx, 0, m_size - 1);
+}
+
+void Game::shoot()
+{
+    m_bullet_translations.emplace_back(m_player_translation.y, m_player_translation.x);
 }
