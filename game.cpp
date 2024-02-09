@@ -20,12 +20,12 @@ void Game::start()
     while (true)
     {
         render();
+        integrate();
+
         if (!input())
         {
             return;
         }
-
-        integrate();
     }
 }
 
@@ -83,5 +83,5 @@ void Game::move_player(int dy, int dx)
 
 void Game::shoot()
 {
-    m_bullet_translations.emplace_back(m_player_translation.y, m_player_translation.x);
+    m_bullet_translations.emplace_back(m_player_translation.y - 1, m_player_translation.x);
 }
