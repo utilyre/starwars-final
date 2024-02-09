@@ -20,21 +20,7 @@ void Game::start()
     while (true)
     {
         render();
-
-        switch (getch())
-        {
-        case 'q':
-            return;
-        case 'a':
-            move_player(0, -1);
-            break;
-        case 'd':
-            move_player(0, 1);
-            break;
-        case ' ':
-            shoot();
-        }
-
+        input();
         integrate();
     }
 }
@@ -54,6 +40,23 @@ void Game::render() const
     for (Vec2 translation : m_bullet_translations)
     {
         mvprintw(translation.y, 2 * translation.x + 1, "^");
+    }
+}
+
+void Game::input()
+{
+    switch (getch())
+    {
+    case 'q':
+        return;
+    case 'a':
+        move_player(0, -1);
+        break;
+    case 'd':
+        move_player(0, 1);
+        break;
+    case ' ':
+        shoot();
     }
 }
 
