@@ -47,6 +47,14 @@ void Game::render() const
     }
 }
 
+void Game::integrate()
+{
+    for (Vec2 &translation : m_bullet_translations)
+    {
+        translation.y--;
+    }
+}
+
 bool Game::input()
 {
     switch (getch())
@@ -65,14 +73,6 @@ bool Game::input()
     }
 
     return true;
-}
-
-void Game::integrate()
-{
-    for (Vec2 &translation : m_bullet_translations)
-    {
-        translation.y--;
-    }
 }
 
 void Game::move_player(int dy, int dx)
