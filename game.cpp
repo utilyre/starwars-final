@@ -45,22 +45,48 @@ void Game::render() const
     {
         mvprintw(translation.y, 2 * translation.x + 1, "^");
     }
+
+    for (Enemy enemy : m_enemies)
+    {
+        for (int i = 0; i < enemy.size.y; i++)
+        {
+            for (int j = 0; j < enemy.size.x; j++)
+            {
+                mvprintw(enemy.translation.y + i, 2 * (enemy.translation.x + j) + 1, "*");
+            }
+        }
+    }
 }
 
 void Game::integrate()
 {
-    for (auto iter = m_bullet_translations.begin(); iter != m_bullet_translations.end();)
+    for (auto it = m_bullet_translations.begin(); it != m_bullet_translations.end();)
     {
-        Vec2 &translation = *iter;
+        Vec2 &translation = *it;
         translation.y--;
 
         if (translation.y < 0)
         {
-            iter = m_bullet_translations.erase(iter);
+            it = m_bullet_translations.erase(it);
             continue;
         }
 
-        iter++;
+        it++;
+    }
+
+    for (auto it = m_enemies.begin(); it != m_enemies.end();)
+    {
+        Enemy &enemy = *it;
+        enemy.translation.y++;
+
+        if (enemy.translation.y + enemy.size.y + 1 > m_size)
+        {
+            it = m_enemies.erase(it);
+            // TODO: decrement health of player
+            continue;
+        }
+
+        it++;
     }
 }
 
