@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include "player.h"
 
-Player::Player(Vec2 translation) : m_health(3), m_translation(translation) {}
+Player::Player(int health, Vec2 translation) : m_health(3), m_translation(translation) {}
 
 Vec2 Player::translation() const
 {

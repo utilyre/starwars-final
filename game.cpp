@@ -3,19 +3,14 @@
 #include "game.h"
 #include "vec2.h"
 
-Game::Game(int size) : m_size(size), m_player(Vec2(size - 1, size / 2))
+Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
     initscr();
     noecho();
     curs_set(0);
 
     // for test
-    Enemy e = {
-        .size = Vec2(2, 2),
-        .translation = Vec2(3, 8),
-        .health = 1,
-    };
-    m_enemies.push_back(e);
+    m_enemies.emplace_back(1, Vec2(2, 2), Vec2(3, 8));
 }
 
 Game::~Game()
@@ -56,13 +51,7 @@ void Game::render() const
 
     for (Enemy enemy : m_enemies)
     {
-        for (int i = 0; i < enemy.size.y; i++)
-        {
-            for (int j = 0; j < enemy.size.x; j++)
-            {
-                mvprintw(enemy.translation.y + i, 2 * (enemy.translation.x + j) + 1, "*");
-            }
-        }
+        enemy.render();
     }
 }
 
@@ -85,9 +74,9 @@ void Game::integrate()
     for (auto it = m_enemies.begin(); it != m_enemies.end();)
     {
         Enemy &enemy = *it;
-        enemy.translation.y++;
+        enemy.move(Vec2(1, 0));
 
-        if (enemy.translation.y + enemy.size.y + 1 > m_size)
+        if (enemy.bottom() >= m_size - 1)
         {
             it = m_enemies.erase(it);
             // TODO: decrement health of player

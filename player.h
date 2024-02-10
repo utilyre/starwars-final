@@ -5,7 +5,7 @@
 class Player
 {
 public:
-    Player(Vec2 translation);
+    Player(int health, Vec2 translation);
 
     Vec2 translation() const;
     void render() const;
