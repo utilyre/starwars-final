@@ -89,22 +89,23 @@ void Game::integrate()
 
 bool Game::input()
 {
-    switch (getch())
+    while (true)
     {
-    case 'q':
-        return false;
-    case 'a':
-        m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
-        break;
-    case 'd':
-        m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
-        break;
-    case ' ':
-        shoot();
-        break;
+        switch (getch())
+        {
+        case 'q':
+            return false;
+        case 'a':
+            m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
+            return true;
+        case 'd':
+            m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
+            return true;
+        case ' ':
+            shoot();
+            return true;
+        }
     }
-
-    return true;
 }
 
 void Game::shoot()
