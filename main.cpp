@@ -4,7 +4,7 @@
 int main()
 {
     int size = 20;
-    Game game(size, Vec2(size - 1, size / 2));
+    Game game(size);
 
     game.start();
 }

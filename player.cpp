@@ -1,0 +1,19 @@
+#include <ncurses.h>
+#include "player.h"
+
+Player::Player(Vec2 translation) : m_health(3), m_translation(translation) {}
+
+Vec2 Player::translation() const
+{
+    return m_translation;
+}
+
+void Player::render() const
+{
+    mvprintw(m_translation.y, 2 * m_translation.x + 1, "#");
+}
+
+void Player::move(Vec2 dr)
+{
+    m_translation = m_translation.add(dr);
+}

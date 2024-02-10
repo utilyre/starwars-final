@@ -3,11 +3,19 @@
 #include "game.h"
 #include "vec2.h"
 
-Game::Game(int size, Vec2 player_translation) : m_size(size), m_player_translation(player_translation)
+Game::Game(int size) : m_size(size), m_player(Vec2(size - 1, size / 2))
 {
     initscr();
     noecho();
     curs_set(0);
+
+    // for test
+    Enemy e = {
+        .size = Vec2(2, 2),
+        .translation = Vec2(3, 8),
+        .health = 1,
+    };
+    m_enemies.push_back(e);
 }
 
 Game::~Game()
@@ -39,7 +47,7 @@ void Game::render() const
         }
     }
 
-    mvprintw(m_player_translation.y, 2 * m_player_translation.x + 1, "#");
+    m_player.render();
 
     for (Vec2 translation : m_bullet_translations)
     {
@@ -97,10 +105,10 @@ bool Game::input()
     case 'q':
         return false;
     case 'a':
-        move_player(0, -1);
+        m_player.move(Vec2(0, -1));
         break;
     case 'd':
-        move_player(0, 1);
+        m_player.move(Vec2(0, 1));
         break;
     case ' ':
         shoot();
@@ -110,13 +118,7 @@ bool Game::input()
     return true;
 }
 
-void Game::move_player(int dy, int dx)
-{
-    m_player_translation.y = std::clamp(m_player_translation.y + dy, 0, m_size - 1);
-    m_player_translation.x = std::clamp(m_player_translation.x + dx, 0, m_size - 1);
-}
-
 void Game::shoot()
 {
-    m_bullet_translations.emplace_back(m_player_translation.y - 1, m_player_translation.x);
+    m_bullet_translations.emplace_back(m_player.translation().y - 1, m_player.translation().x);
 }
