@@ -9,7 +9,7 @@ public:
 
     Vec2 translation() const;
     void render() const;
-    void move(Vec2 dr);
+    void move(Vec2 dr, Vec2 min, Vec2 max);
 
 private:
     int m_health;

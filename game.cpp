@@ -94,10 +94,10 @@ bool Game::input()
     case 'q':
         return false;
     case 'a':
-        m_player.move(Vec2(0, -1));
+        m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
         break;
     case 'd':
-        m_player.move(Vec2(0, 1));
+        m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
         break;
     case ' ':
         shoot();
