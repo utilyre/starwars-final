@@ -49,9 +49,18 @@ void Game::render() const
 
 void Game::integrate()
 {
-    for (Vec2 &translation : m_bullet_translations)
+    for (auto iter = m_bullet_translations.begin(); iter != m_bullet_translations.end();)
     {
+        Vec2 &translation = *iter;
         translation.y--;
+
+        if (translation.y < 0)
+        {
+            iter = m_bullet_translations.erase(iter);
+            continue;
+        }
+
+        iter++;
     }
 }
 
