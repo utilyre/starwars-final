@@ -120,6 +120,7 @@ void Game::move_enemies()
         if (enemy.bottom() >= m_size - 1)
         {
             it = m_enemies.erase(it);
+            spawn_enemy_randomly();
             // TODO: decrement health of player
             continue;
         }
@@ -160,6 +161,7 @@ void Game::collide_bullets_with_enemies()
         if (should_erase_enemy)
         {
             it = m_enemies.erase(it);
+            spawn_enemy_randomly();
         }
         else
         {
