@@ -61,8 +61,8 @@ void Game::render() const
 void Game::integrate()
 {
     move_bullets();
-    move_enemies();
     collide_bullets_with_enemies();
+    move_enemies();
 }
 
 bool Game::input()
