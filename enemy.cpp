@@ -18,6 +18,11 @@ void Enemy::render() const
     }
 }
 
+Vec2 Enemy::size() const
+{
+    return m_size;
+}
+
 int Enemy::left() const
 {
     return m_translation.x;

@@ -8,6 +8,7 @@ public:
     Enemy(int health, Vec2 size, Vec2 translation);
 
     void render() const;
+    Vec2 size() const;
     int left() const;
     int top() const;
     int right() const;

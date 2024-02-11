@@ -89,7 +89,7 @@ bool Game::input()
 void Game::spawn_enemy_randomly()
 {
     Enemy enemy = ENEMIES[rand() % ENEMIES_LEN];
-    enemy.set_translation(Vec2(rand() % (m_size - 2), rand() % m_size));
+    enemy.set_translation(Vec2(0, rand() % (m_size - enemy.size().x + 1)));
     m_enemies.push_back(enemy);
 }
 
