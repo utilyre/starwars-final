@@ -10,7 +10,7 @@ Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
     curs_set(0);
 
     // for test
-    m_enemies.emplace_back(1, Vec2(2, 2), Vec2(3, 8));
+    m_enemies.emplace_back(5, Vec2(2, 2), Vec2(3, 8));
 }
 
 Game::~Game()
@@ -84,6 +84,43 @@ void Game::integrate()
         }
 
         it++;
+    }
+
+    for (auto it = m_enemies.begin(); it != m_enemies.end();)
+    {
+        Enemy &enemy = *it;
+
+        bool should_erase_enemy = false;
+        for (auto it = m_bullet_translations.begin(); it != m_bullet_translations.end();)
+        {
+            Vec2 &bullet_translation = *it;
+
+            if (bullet_translation.y >= enemy.top() && bullet_translation.y <= enemy.bottom() &&
+                bullet_translation.x >= enemy.left() && bullet_translation.x <= enemy.right())
+            {
+                enemy.take_damage();
+                it = m_bullet_translations.erase(it);
+
+                if (enemy.is_dead())
+                {
+                    should_erase_enemy = true;
+                    break;
+                }
+            }
+            else
+            {
+                it++;
+            }
+        }
+
+        if (should_erase_enemy)
+        {
+            it = m_enemies.erase(it);
+        }
+        else
+        {
+            it++;
+        }
     }
 }
 
