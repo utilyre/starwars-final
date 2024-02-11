@@ -1,16 +1,17 @@
 #include <algorithm>
 #include <ncurses.h>
+#include <random>
+#include <time.h>
 #include "game.h"
 #include "vec2.h"
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
+    srand(time(0));
+
     initscr();
     noecho();
     curs_set(0);
-
-    // for test
-    m_enemies.emplace_back(5, Vec2(2, 2), Vec2(3, 8));
 }
 
 Game::~Game()
@@ -20,6 +21,8 @@ Game::~Game()
 
 void Game::start()
 {
+    spawn_enemy_randomly();
+
     while (true)
     {
         render();
@@ -81,6 +84,13 @@ bool Game::input()
             return true;
         }
     }
+}
+
+void Game::spawn_enemy_randomly()
+{
+    Enemy enemy = ENEMIES[rand() % ENEMIES_LEN];
+    enemy.set_translation(Vec2(rand() % (m_size - 2), rand() % m_size));
+    m_enemies.push_back(enemy);
 }
 
 void Game::move_bullets()

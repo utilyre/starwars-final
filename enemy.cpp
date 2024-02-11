@@ -38,6 +38,11 @@ int Enemy::bottom() const
     return m_translation.y + m_size.y - 1;
 }
 
+void Enemy::set_translation(Vec2 translation)
+{
+    m_translation = translation;
+}
+
 void Enemy::move(Vec2 dr)
 {
     m_translation = m_translation.add(dr);
