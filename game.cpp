@@ -57,6 +57,34 @@ void Game::render() const
 
 void Game::integrate()
 {
+    move_bullets();
+    move_enemies();
+    collide_bullets_with_enemies();
+}
+
+bool Game::input()
+{
+    while (true)
+    {
+        switch (getch())
+        {
+        case 'q':
+            return false;
+        case 'a':
+            m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
+            return true;
+        case 'd':
+            m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
+            return true;
+        case ' ':
+            shoot();
+            return true;
+        }
+    }
+}
+
+void Game::move_bullets()
+{
     for (auto it = m_bullet_translations.begin(); it != m_bullet_translations.end();)
     {
         Vec2 &translation = *it;
@@ -70,7 +98,10 @@ void Game::integrate()
 
         it++;
     }
+}
 
+void Game::move_enemies()
+{
     for (auto it = m_enemies.begin(); it != m_enemies.end();)
     {
         Enemy &enemy = *it;
@@ -85,7 +116,10 @@ void Game::integrate()
 
         it++;
     }
+}
 
+void Game::collide_bullets_with_enemies()
+{
     for (auto it = m_enemies.begin(); it != m_enemies.end();)
     {
         Enemy &enemy = *it;
@@ -120,27 +154,6 @@ void Game::integrate()
         else
         {
             it++;
-        }
-    }
-}
-
-bool Game::input()
-{
-    while (true)
-    {
-        switch (getch())
-        {
-        case 'q':
-            return false;
-        case 'a':
-            m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
-            return true;
-        case 'd':
-            m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
-            return true;
-        case ' ':
-            shoot();
-            return true;
         }
     }
 }
