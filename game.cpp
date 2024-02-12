@@ -74,13 +74,12 @@ bool Game::input()
         case 'q':
             return false;
         case 'a':
+            shoot();
             m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
             return true;
         case 'd':
-            m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
-            return true;
-        case ' ':
             shoot();
+            m_player.move(Vec2(0, 1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
             return true;
         }
     }
