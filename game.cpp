@@ -5,7 +5,7 @@
 #include "game.h"
 #include "vec2.h"
 
-Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
+Game::Game(int size) : m_size(size), m_player(size, 3, Vec2(size - 1, size / 2))
 {
     srand(time(0));
 
@@ -120,7 +120,13 @@ void Game::move_enemies()
         {
             it = m_enemies.erase(it);
             spawn_enemy_randomly();
-            // TODO: decrement health of player
+
+            m_player.take_damage();
+            if (m_player.is_dead())
+            {
+                // TODO: gameover
+            }
+
             continue;
         }
 
