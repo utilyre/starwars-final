@@ -4,6 +4,7 @@
 #include <time.h>
 #include "game.h"
 #include "vec2.h"
+#include "bullet.h"
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
@@ -47,9 +48,9 @@ void Game::render() const
 
     m_player.render(m_wgame);
 
-    for (Vec2 translation : m_bullet_translations)
+    for (Bullet bullet : m_bullets)
     {
-        mvwprintw(m_wgame, translation.y + 1, 2 * translation.x + 2, "^");
+        bullet.render(m_wgame);
     }
 
     for (Enemy enemy : m_enemies)
@@ -97,14 +98,14 @@ void Game::spawn_enemy_randomly()
 
 void Game::move_bullets()
 {
-    for (auto it = m_bullet_translations.begin(); it != m_bullet_translations.end();)
+    for (auto it = m_bullets.begin(); it != m_bullets.end();)
     {
-        Vec2 &translation = *it;
-        translation.y--;
+        Bullet &bullet = *it;
+        bullet.move(Vec2(-1, 0));
 
-        if (translation.y < 0)
+        if (bullet.translation().y < 0)
         {
-            it = m_bullet_translations.erase(it);
+            it = m_bullets.erase(it);
             continue;
         }
 
@@ -139,16 +140,17 @@ void Game::move_enemies()
 
 void Game::collide_bullets_with_enemies()
 {
-    for (auto bullet_it = m_bullet_translations.begin(); bullet_it != m_bullet_translations.end();)
+    for (auto bullet_it = m_bullets.begin(); bullet_it != m_bullets.end();)
     {
-        const Vec2 &bullet = *bullet_it;
+        const Bullet &bullet = *bullet_it;
 
         bool should_erase_bullet = false;
         for (auto enemy_it = m_enemies.begin(); enemy_it != m_enemies.end();)
         {
             Enemy &enemy = *enemy_it;
 
-            if (bullet.y >= enemy.top() && bullet.y <= enemy.bottom() && bullet.x >= enemy.left() && bullet.x <= enemy.right())
+            if (bullet.translation().y >= enemy.top() && bullet.translation().y <= enemy.bottom() &&
+                bullet.translation().x >= enemy.left() && bullet.translation().x <= enemy.right())
             {
                 should_erase_bullet = true;
                 enemy.take_damage(1);
@@ -166,7 +168,7 @@ void Game::collide_bullets_with_enemies()
 
         if (should_erase_bullet)
         {
-            bullet_it = m_bullet_translations.erase(bullet_it);
+            bullet_it = m_bullets.erase(bullet_it);
             continue;
         }
 
@@ -176,5 +178,5 @@ void Game::collide_bullets_with_enemies()
 
 void Game::shoot()
 {
-    m_bullet_translations.emplace_back(m_player.translation().y - 1, m_player.translation().x);
+    m_bullets.emplace_back(Vec2(m_player.translation().y - 1, m_player.translation().x));
 }

@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include "vec2.h"
 #include "enemy.h"
+#include "bullet.h"
 #include "player.h"
 
 class Game
@@ -19,7 +20,7 @@ private:
     WINDOW *m_wgame;
 
     Player m_player;
-    std::vector<Vec2> m_bullet_translations;
+    std::vector<Bullet> m_bullets;
     std::vector<Enemy> m_enemies;
 
     void render() const;
