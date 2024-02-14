@@ -17,6 +17,7 @@ public:
 
 private:
     int m_size;
+    WINDOW *m_wstatus;
     WINDOW *m_wgame;
 
     Player m_player;

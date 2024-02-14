@@ -20,10 +20,8 @@ Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
     init_pair(CP_BULLET, COLOR_YELLOW, COLOR_BLACK);
     init_pair(CP_ENEMY, COLOR_RED, COLOR_BLACK);
 
+    m_wstatus = newwin(3, 2 * size + 3, (LINES - size - 7) / 2, (COLS - 2 * size - 3) / 2);
     m_wgame = newwin(size + 2, 2 * size + 3, (LINES - size - 2) / 2, (COLS - 2 * size - 3) / 2);
-
-    refresh();
-    wrefresh(m_wgame);
 }
 
 Game::~Game()
@@ -50,10 +48,12 @@ void Game::start()
 
 void Game::render() const
 {
+    wclear(m_wstatus);
+    box(m_wstatus, 0, 0);
     wclear(m_wgame);
     box(m_wgame, 0, 0);
 
-    m_player.render(m_wgame);
+    m_player.render(m_wstatus, m_wgame);
 
     for (Bullet bullet : m_bullets)
     {
@@ -64,6 +64,9 @@ void Game::render() const
     {
         enemy.render(m_wgame);
     }
+
+    wrefresh(m_wstatus);
+    wrefresh(m_wgame);
 }
 
 void Game::integrate()

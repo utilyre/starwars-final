@@ -9,8 +9,10 @@ Vec2 Player::translation() const
     return m_translation;
 }
 
-void Player::render(WINDOW *wgame) const
+void Player::render(WINDOW *wstatus, WINDOW *wgame) const
 {
+    mvwprintw(wstatus, 1, 1, "health: %d", m_health);
+
     wattron(wgame, COLOR_PAIR(CP_PLAYER));
     mvwprintw(wgame, m_translation.y + 1, 2 * m_translation.x + 2, "#");
     wattroff(wgame, COLOR_PAIR(CP_PLAYER));

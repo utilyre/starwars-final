@@ -8,7 +8,7 @@ class Player
 public:
     Player(int health, Vec2 translation);
 
-    void render(WINDOW *wgame) const;
+    void render(WINDOW *wstatus, WINDOW *wgame) const;
 
     bool is_dead() const;
     Vec2 translation() const;
