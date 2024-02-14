@@ -5,14 +5,20 @@
 #include "game.h"
 #include "vec2.h"
 #include "bullet.h"
+#include "colorpairs.h"
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
     srand(time(0));
 
     initscr();
+    start_color();
     noecho();
     curs_set(0);
+
+    init_pair(CP_PLAYER, COLOR_BLUE, COLOR_BLACK);
+    init_pair(CP_BULLET, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(CP_ENEMY, COLOR_RED, COLOR_BLACK);
 
     m_wgame = newwin(size + 2, 2 * size + 3, 0, 0);
     refresh();

@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include "player.h"
+#include "colorpairs.h"
 
 Player::Player(int health, Vec2 translation) : m_health(health), m_translation(translation) {}
 
@@ -10,8 +11,9 @@ Vec2 Player::translation() const
 
 void Player::render(WINDOW *wgame) const
 {
+    wattron(wgame, COLOR_PAIR(CP_PLAYER));
     mvwprintw(wgame, m_translation.y + 1, 2 * m_translation.x + 2, "#");
-    // mvwprintw(wgame, 2, 2 * m_size + 2, "health: %d", m_health);
+    wattroff(wgame, COLOR_PAIR(CP_PLAYER));
 }
 
 void Player::move(Vec2 dr, Vec2 min, Vec2 max)
