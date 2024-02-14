@@ -14,9 +14,11 @@ public:
     Vec2 translation() const;
 
     void take_damage(int amount);
+    void take_score(int amount);
     void move(Vec2 dr, Vec2 min, Vec2 max);
 
 private:
     int m_health;
+    int m_score;
     Vec2 m_translation;
 };

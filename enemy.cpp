@@ -63,3 +63,8 @@ bool Enemy::collides_with(Vec2 translation) const
     return translation.y >= top() && translation.y <= bottom() &&
            translation.x >= left() && translation.x <= right();
 }
+
+int Enemy::points() const
+{
+    return 2 * m_size.y * m_size.x;
+}

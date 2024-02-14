@@ -17,6 +17,7 @@ public:
     int right() const;
     int bottom() const;
     bool collides_with(Vec2 translation) const;
+    int points() const;
 
     void take_damage(int amount);
     void move(Vec2 dr);

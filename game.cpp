@@ -165,6 +165,7 @@ void Game::collide_bullets_with_enemies()
                 enemy.take_damage(1);
                 if (enemy.is_dead())
                 {
+                    m_player.take_score(enemy.points());
                     enemy_it = m_enemies.erase(enemy_it);
                     spawn_enemy_randomly();
                 }
