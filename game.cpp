@@ -12,10 +12,16 @@ Game::Game(int size) : m_size(size), m_player(size, 3, Vec2(size - 1, size / 2))
     initscr();
     noecho();
     curs_set(0);
+
+    m_wgame = newwin(size + 2, 2 * size + 3, 0, 0);
+    refresh();
+    box(m_wgame, 0, 0);
+    wrefresh(m_wgame);
 }
 
 Game::~Game()
 {
+    delwin(m_wgame);
     endwin();
 }
 
@@ -41,20 +47,20 @@ void Game::render() const
     {
         for (int j = 0; j < m_size; j++)
         {
-            mvprintw(i, 2 * j + 1, "-");
+            mvwprintw(m_wgame, i + 1, 2 * j + 2, "-");
         }
     }
 
-    m_player.render();
+    m_player.render(m_wgame);
 
     for (Vec2 translation : m_bullet_translations)
     {
-        mvprintw(translation.y, 2 * translation.x + 1, "^");
+        mvwprintw(m_wgame, translation.y + 1, 2 * translation.x + 2, "^");
     }
 
     for (Enemy enemy : m_enemies)
     {
-        enemy.render();
+        enemy.render(m_wgame);
     }
 }
 
@@ -69,7 +75,7 @@ bool Game::input()
 {
     while (true)
     {
-        switch (getch())
+        switch (wgetch(m_wgame))
         {
         case 'q':
             return false;

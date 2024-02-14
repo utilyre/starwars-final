@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ncurses.h>
 #include "vec2.h"
 
 class Enemy
@@ -7,7 +8,7 @@ class Enemy
 public:
     Enemy(int health, Vec2 size, Vec2 translation);
 
-    void render() const;
+    void render(WINDOW *wgame) const;
     Vec2 size() const;
     int left() const;
     int top() const;

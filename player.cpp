@@ -8,10 +8,10 @@ Vec2 Player::translation() const
     return m_translation;
 }
 
-void Player::render() const
+void Player::render(WINDOW *wgame) const
 {
-    mvprintw(m_translation.y, 2 * m_translation.x + 1, "#");
-    mvprintw(2, 2 * m_size + 2, "health: %d", m_health);
+    mvwprintw(wgame, m_translation.y+1, 2 * m_translation.x + 2, "#");
+    // mvwprintw(wgame, 2, 2 * m_size + 2, "health: %d", m_health);
 }
 
 void Player::move(Vec2 dr, Vec2 min, Vec2 max)

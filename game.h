@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <ncurses.h>
 #include "vec2.h"
 #include "enemy.h"
 #include "player.h"
@@ -15,6 +16,8 @@ public:
 
 private:
     int m_size;
+    WINDOW *m_wgame;
+
     Player m_player;
     std::vector<Vec2> m_bullet_translations;
     std::vector<Enemy> m_enemies;

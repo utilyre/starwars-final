@@ -7,13 +7,13 @@ Enemy::Enemy(int health, Vec2 size, Vec2 translation) : m_health(health),
 {
 }
 
-void Enemy::render() const
+void Enemy::render(WINDOW *wgame) const
 {
     for (int i = 0; i < m_size.y; i++)
     {
         for (int j = 0; j < m_size.x; j++)
         {
-            mvprintw(m_translation.y + i, 2 * (m_translation.x + j) + 1, "*");
+            mvwprintw(wgame, m_translation.y + i+1, 2 * (m_translation.x + j) + 2, "*");
         }
     }
 }
