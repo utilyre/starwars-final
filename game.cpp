@@ -139,42 +139,41 @@ void Game::move_enemies()
 
 void Game::collide_bullets_with_enemies()
 {
-    for (auto it = m_enemies.begin(); it != m_enemies.end();)
+    for (auto enemy_it = m_enemies.begin(); enemy_it != m_enemies.end();)
     {
-        Enemy &enemy = *it;
+        Enemy &enemy = *enemy_it;
 
         bool should_erase_enemy = false;
-        for (auto it = m_bullet_translations.begin(); it != m_bullet_translations.end();)
+        for (auto bullet_it = m_bullet_translations.begin(); bullet_it != m_bullet_translations.end();)
         {
-            Vec2 &bullet_translation = *it;
+            Vec2 &bullet_translation = *bullet_it;
 
             if (bullet_translation.y >= enemy.top() && bullet_translation.y <= enemy.bottom() &&
                 bullet_translation.x >= enemy.left() && bullet_translation.x <= enemy.right())
             {
                 enemy.take_damage(1);
-                it = m_bullet_translations.erase(it);
+                bullet_it = m_bullet_translations.erase(bullet_it);
 
                 if (enemy.is_dead())
                 {
                     should_erase_enemy = true;
                     break;
                 }
+
+                continue;
             }
-            else
-            {
-                it++;
-            }
+
+            bullet_it++;
         }
 
         if (should_erase_enemy)
         {
-            it = m_enemies.erase(it);
+            enemy_it = m_enemies.erase(enemy_it);
             spawn_enemy_randomly();
+            continue;
         }
-        else
-        {
-            it++;
-        }
+
+        enemy_it++;
     }
 }
 
