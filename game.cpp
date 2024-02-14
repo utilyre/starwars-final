@@ -15,7 +15,6 @@ Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 
     m_wgame = newwin(size + 2, 2 * size + 3, 0, 0);
     refresh();
-    box(m_wgame, 0, 0);
     wrefresh(m_wgame);
 }
 
@@ -43,13 +42,8 @@ void Game::start()
 
 void Game::render() const
 {
-    for (int i = 0; i < m_size; i++)
-    {
-        for (int j = 0; j < m_size; j++)
-        {
-            mvwprintw(m_wgame, i + 1, 2 * j + 2, "-");
-        }
-    }
+    wclear(m_wgame);
+    box(m_wgame, 0, 0);
 
     m_player.render(m_wgame);
 
