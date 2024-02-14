@@ -54,3 +54,9 @@ bool Enemy::is_dead() const
 {
     return m_health <= 0;
 }
+
+bool Enemy::collides_with(Vec2 translation) const
+{
+    return translation.y >= top() && translation.y <= bottom() &&
+           translation.x >= left() && translation.x <= right();
+}

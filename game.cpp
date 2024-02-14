@@ -149,8 +149,7 @@ void Game::collide_bullets_with_enemies()
         {
             Enemy &enemy = *enemy_it;
 
-            if (bullet.translation().y >= enemy.top() && bullet.translation().y <= enemy.bottom() &&
-                bullet.translation().x >= enemy.left() && bullet.translation().x <= enemy.right())
+            if (enemy.collides_with(bullet.translation()))
             {
                 should_erase_bullet = true;
                 enemy.take_damage(1);
