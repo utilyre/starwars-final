@@ -1,10 +1,12 @@
 #include <ncurses.h>
+#include <random>
 #include "enemy.h"
 
-Enemy::Enemy(int health, Vec2 size, Vec2 translation) : m_health(health),
-                                                        m_size(size),
-                                                        m_translation(translation)
+Enemy::Enemy(int health, Vec2 size) : m_health(health), m_size(size) {}
+
+Enemy::Enemy(const Enemy &blueprint, int range) : m_health(blueprint.m_health), m_size(blueprint.m_size)
 {
+    m_translation.x = rand() % (range - m_size.x + 1);
 }
 
 void Enemy::render(WINDOW *wgame) const
@@ -13,14 +15,9 @@ void Enemy::render(WINDOW *wgame) const
     {
         for (int j = 0; j < m_size.x; j++)
         {
-            mvwprintw(wgame, m_translation.y + i+1, 2 * (m_translation.x + j) + 2, "*");
+            mvwprintw(wgame, m_translation.y + i + 1, 2 * (m_translation.x + j) + 2, "*");
         }
     }
-}
-
-Vec2 Enemy::size() const
-{
-    return m_size;
 }
 
 int Enemy::left() const
@@ -43,19 +40,14 @@ int Enemy::bottom() const
     return m_translation.y + m_size.y - 1;
 }
 
-void Enemy::set_translation(Vec2 translation)
-{
-    m_translation = translation;
-}
-
 void Enemy::move(Vec2 dr)
 {
     m_translation = m_translation.add(dr);
 }
 
-void Enemy::take_damage()
+void Enemy::take_damage(int amount)
 {
-    m_health--;
+    m_health -= amount;
 }
 
 bool Enemy::is_dead() const

@@ -6,16 +6,17 @@
 class Player
 {
 public:
-    Player(int size, int health, Vec2 translation);
+    Player(int health, Vec2 translation);
 
-    Vec2 translation() const;
-    void render(WINDOW* wgame) const;
-    void move(Vec2 dr, Vec2 min, Vec2 max);
-    void take_damage();
+    void render(WINDOW *wgame) const;
+
     bool is_dead() const;
+    Vec2 translation() const;
+
+    void take_damage(int amount);
+    void move(Vec2 dr, Vec2 min, Vec2 max);
 
 private:
-    int m_size;
     int m_health;
     Vec2 m_translation;
 };

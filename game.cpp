@@ -5,7 +5,7 @@
 #include "game.h"
 #include "vec2.h"
 
-Game::Game(int size) : m_size(size), m_player(size, 3, Vec2(size - 1, size / 2))
+Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
     srand(time(0));
 
@@ -93,8 +93,8 @@ bool Game::input()
 
 void Game::spawn_enemy_randomly()
 {
-    Enemy enemy = ENEMIES[rand() % ENEMIES_LEN];
-    enemy.set_translation(Vec2(0, rand() % (m_size - enemy.size().x + 1)));
+    const Enemy &blueprint = BP_ENEMIES[rand() % ENEMIES_LEN];
+    Enemy enemy(blueprint, m_size);
     m_enemies.push_back(enemy);
 }
 
@@ -127,7 +127,7 @@ void Game::move_enemies()
             it = m_enemies.erase(it);
             spawn_enemy_randomly();
 
-            m_player.take_damage();
+            m_player.take_damage(1);
             if (m_player.is_dead())
             {
                 // TODO: gameover
@@ -154,7 +154,7 @@ void Game::collide_bullets_with_enemies()
             if (bullet_translation.y >= enemy.top() && bullet_translation.y <= enemy.bottom() &&
                 bullet_translation.x >= enemy.left() && bullet_translation.x <= enemy.right())
             {
-                enemy.take_damage();
+                enemy.take_damage(1);
                 it = m_bullet_translations.erase(it);
 
                 if (enemy.is_dead())
