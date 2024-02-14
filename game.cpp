@@ -130,7 +130,7 @@ void Game::move_enemies()
         Enemy &enemy = *it;
         enemy.move(Vec2(1, 0));
 
-        if (enemy.bottom() >= m_size - 1)
+        if (enemy.collides_with(Rect(1, m_size, m_player.translation().y, 0)))
         {
             it = m_enemies.erase(it);
             spawn_enemy_randomly();
@@ -159,7 +159,7 @@ void Game::collide_bullets_with_enemies()
         {
             Enemy &enemy = *enemy_it;
 
-            if (enemy.collides_with(bullet.translation()))
+            if (enemy.collides_with(Rect(Vec2(1, 1), bullet.translation())))
             {
                 should_erase_bullet = true;
                 enemy.take_damage(1);

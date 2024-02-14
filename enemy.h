@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ncurses.h>
+#include "rect.h"
 #include "vec2.h"
 
 class Enemy
@@ -12,11 +13,7 @@ public:
     void render(WINDOW *wgame) const;
 
     bool is_dead() const;
-    int left() const;
-    int top() const;
-    int right() const;
-    int bottom() const;
-    bool collides_with(Vec2 translation) const;
+    bool collides_with(Rect other) const;
     int points() const;
 
     void take_damage(int amount);
@@ -24,8 +21,7 @@ public:
 
 private:
     int m_health;
-    Vec2 m_size;
-    Vec2 m_translation;
+    Rect m_collision;
 };
 
 #define ENEMIES_LEN 4
