@@ -61,8 +61,8 @@ void Game::render() const
 void Game::integrate()
 {
     move_bullets();
-    collide_bullets_with_enemies();
     move_enemies();
+    collide_bullets_with_enemies();
 }
 
 bool Game::input()
@@ -139,41 +139,38 @@ void Game::move_enemies()
 
 void Game::collide_bullets_with_enemies()
 {
-    for (auto enemy_it = m_enemies.begin(); enemy_it != m_enemies.end();)
+    for (auto bullet_it = m_bullet_translations.begin(); bullet_it != m_bullet_translations.end();)
     {
-        Enemy &enemy = *enemy_it;
+        const Vec2 &bullet = *bullet_it;
 
-        bool should_erase_enemy = false;
-        for (auto bullet_it = m_bullet_translations.begin(); bullet_it != m_bullet_translations.end();)
+        bool should_erase_bullet = false;
+        for (auto enemy_it = m_enemies.begin(); enemy_it != m_enemies.end();)
         {
-            Vec2 &bullet_translation = *bullet_it;
+            Enemy &enemy = *enemy_it;
 
-            if (bullet_translation.y >= enemy.top() && bullet_translation.y <= enemy.bottom() &&
-                bullet_translation.x >= enemy.left() && bullet_translation.x <= enemy.right())
+            if (bullet.y >= enemy.top() && bullet.y <= enemy.bottom() && bullet.x >= enemy.left() && bullet.x <= enemy.right())
             {
+                should_erase_bullet = true;
                 enemy.take_damage(1);
-                bullet_it = m_bullet_translations.erase(bullet_it);
-
                 if (enemy.is_dead())
                 {
-                    should_erase_enemy = true;
-                    break;
+                    enemy_it = m_enemies.erase(enemy_it);
+                    spawn_enemy_randomly();
                 }
 
-                continue;
+                break;
             }
 
-            bullet_it++;
+            enemy_it++;
         }
 
-        if (should_erase_enemy)
+        if (should_erase_bullet)
         {
-            enemy_it = m_enemies.erase(enemy_it);
-            spawn_enemy_randomly();
+            bullet_it = m_bullet_translations.erase(bullet_it);
             continue;
         }
 
-        enemy_it++;
+        bullet_it++;
     }
 }
 
