@@ -73,6 +73,9 @@ bool Game::input()
         {
         case 'q':
             return false;
+        case ' ':
+            shoot();
+            return true;
         case 'a':
             shoot();
             m_player.move(Vec2(0, -1), Vec2(m_size - 1, 0), Vec2(m_size - 1, m_size - 1));
