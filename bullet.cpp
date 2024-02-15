@@ -2,6 +2,7 @@
 #include <fstream>
 #include "bullet.h"
 
+Bullet::Bullet() : m_translation() {}
 Bullet::Bullet(Vec2 translation) : m_translation(translation) {}
 
 void Bullet::render(WINDOW *wgame) const
@@ -22,4 +23,9 @@ Vec2 Bullet::translation() const
 void Bullet::save_to(std::ofstream &out) const
 {
     out.write(reinterpret_cast<const char *>(&m_translation), sizeof(m_translation));
+}
+
+void Bullet::load_from(std::ifstream &in)
+{
+    in.read(reinterpret_cast<char *>(&m_translation), sizeof(m_translation));
 }

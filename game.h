@@ -30,7 +30,7 @@ private:
     std::vector<Enemy> m_enemies;
 
     void save() const;
-    // void load();
+    void load();
 
     void render() const;
     void integrate();

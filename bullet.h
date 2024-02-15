@@ -7,9 +7,11 @@
 class Bullet
 {
 public:
+    Bullet();
     Bullet(Vec2 translation);
 
     void save_to(std::ofstream &out) const;
+    void load_from(std::ifstream &in);
 
     void render(WINDOW *wgame) const;
 

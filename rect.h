@@ -7,6 +7,7 @@ struct Rect
     Vec2 size;
     Vec2 translation;
 
+    Rect();
     Rect(Vec2 size, Vec2 translation);
     Rect(int height, int width, int y, int x);
 

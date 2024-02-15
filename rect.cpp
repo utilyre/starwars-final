@@ -1,6 +1,7 @@
 #include "rect.h"
 #include "vec2.h"
 
+Rect::Rect() : size(), translation() {}
 Rect::Rect(Vec2 size, Vec2 translation) : size(size), translation(translation) {}
 Rect::Rect(int height, int width, int y, int x) : size(height, width), translation(y, x) {}
 

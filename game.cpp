@@ -22,6 +22,8 @@ Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 
     m_wstatus = newwin(3, 2 * size + 3, (LINES - size - 7) / 2, (COLS - 2 * size - 3) / 2);
     m_wgame = newwin(size + 2, 2 * size + 3, (LINES - size - 2) / 2, (COLS - 2 * size - 3) / 2);
+
+    load();
 }
 
 Game::~Game()
@@ -204,6 +206,7 @@ void Game::save() const
     std::ofstream f("state.dat", std::ios::binary);
 
     f.write(reinterpret_cast<const char *>(&m_size), sizeof(m_size));
+
     m_player.save_to(f);
 
     int bullets_len = m_bullets.size();
@@ -218,5 +221,35 @@ void Game::save() const
     for (const Enemy &enemy : m_enemies)
     {
         enemy.save_to(f);
+    }
+}
+
+void Game::load()
+{
+    std::ifstream f("state.dat", std::ios::binary);
+    if (!f.is_open())
+    {
+        return;
+    }
+
+    f.read(reinterpret_cast<char *>(&m_size), sizeof(m_size));
+
+    m_player.load_from(f);
+
+    int bullets_len;
+    f.read(reinterpret_cast<char *>(&bullets_len), sizeof(bullets_len));
+    for (int i = 0; i < bullets_len; i++)
+    {
+        Bullet bullet;
+        bullet.load_from(f);
+        m_bullets.push_back(bullet);
+    }
+
+    int enemies_len;
+    f.read(reinterpret_cast<char *>(&enemies_len), sizeof(bullets_len));
+    for (int i = 0; i < enemies_len; i++) {
+        Enemy enemy;
+        enemy.load_from(f);
+        m_enemies.push_back(enemy);
     }
 }

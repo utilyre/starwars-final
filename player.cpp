@@ -41,3 +41,10 @@ void Player::save_to(std::ofstream &out) const
     out.write(reinterpret_cast<const char *>(&m_score), sizeof(m_score));
     out.write(reinterpret_cast<const char *>(&m_translation), sizeof(m_translation));
 }
+
+void Player::load_from(std::ifstream &in)
+{
+    in.read(reinterpret_cast<char *>(&m_health), sizeof(m_health));
+    in.read(reinterpret_cast<char *>(&m_score), sizeof(m_score));
+    in.read(reinterpret_cast<char *>(&m_translation), sizeof(m_translation));
+}

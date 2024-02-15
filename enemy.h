@@ -8,10 +8,12 @@
 class Enemy
 {
 public:
+    Enemy();
     Enemy(int health, Vec2 size);
     Enemy(const Enemy &blueprint, int range_x);
 
     void save_to(std::ofstream &out) const;
+    void load_from(std::ifstream &in);
 
     void render(WINDOW *wgame) const;
 

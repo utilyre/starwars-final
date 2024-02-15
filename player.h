@@ -10,6 +10,7 @@ public:
     Player(int health, Vec2 translation);
 
     void save_to(std::ofstream &out) const;
+    void load_from(std::ifstream &in);
 
     void render(WINDOW *wstatus, WINDOW *wgame) const;
 
