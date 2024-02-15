@@ -35,7 +35,10 @@ Game::~Game()
 
 void Game::start()
 {
-    spawn_enemy_randomly();
+    if (m_enemies.size() == 0)
+    {
+        spawn_enemy_randomly();
+    }
 
     while (true)
     {
