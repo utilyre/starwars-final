@@ -5,7 +5,6 @@
 #include "game.h"
 #include "vec2.h"
 #include "bullet.h"
-#include "colorpairs.h"
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
@@ -54,17 +53,23 @@ void Game::render() const
     wclear(m_wgame);
     box(m_wgame, 0, 0);
 
+    wattron(m_wgame, COLOR_PAIR(CP_PLAYER));
     m_player.render(m_wstatus, m_wgame);
+    wattroff(m_wgame, COLOR_PAIR(CP_PLAYER));
 
+    wattron(m_wgame, COLOR_PAIR(CP_BULLET));
     for (Bullet bullet : m_bullets)
     {
         bullet.render(m_wgame);
     }
+    wattroff(m_wgame, COLOR_PAIR(CP_BULLET));
 
+    wattron(m_wgame, COLOR_PAIR(CP_ENEMY));
     for (Enemy enemy : m_enemies)
     {
         enemy.render(m_wgame);
     }
+    wattroff(m_wgame, COLOR_PAIR(CP_ENEMY));
 
     wrefresh(m_wstatus);
     wrefresh(m_wgame);

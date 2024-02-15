@@ -1,7 +1,6 @@
 #include <ncurses.h>
 #include <random>
 #include "enemy.h"
-#include "colorpairs.h"
 
 Enemy::Enemy(int health, Vec2 size) : m_health(health), m_collision(size, Vec2()) {}
 
@@ -16,9 +15,7 @@ void Enemy::render(WINDOW *wgame) const
     {
         for (int j = m_collision.left(); j <= m_collision.right(); j++)
         {
-            wattron(wgame, COLOR_PAIR(CP_ENEMY));
             mvwprintw(wgame, i + 1, 2 * j + 2, "*");
-            wattroff(wgame, COLOR_PAIR(CP_ENEMY));
         }
     }
 }
