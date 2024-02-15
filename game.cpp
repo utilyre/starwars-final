@@ -250,7 +250,8 @@ void Game::load()
 
     int enemies_len;
     f.read(reinterpret_cast<char *>(&enemies_len), sizeof(bullets_len));
-    for (int i = 0; i < enemies_len; i++) {
+    for (int i = 0; i < enemies_len; i++)
+    {
         Enemy enemy;
         enemy.load_from(f);
         m_enemies.push_back(enemy);
