@@ -159,7 +159,7 @@ void Game::collide_bullets_with_enemies()
         {
             Enemy &enemy = *enemy_it;
 
-            if (enemy.collides_with(Rect(Vec2(1, 1), bullet.translation())))
+            if (enemy.collides_with(Rect(Vec2(2, 1), bullet.translation())))
             {
                 should_erase_bullet = true;
                 enemy.take_damage(1);
