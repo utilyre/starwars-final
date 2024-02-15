@@ -27,6 +27,7 @@ Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 Game::~Game()
 {
     delwin(m_wgame);
+    delwin(m_wstatus);
     endwin();
 }
 
