@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <ncurses.h>
 #include "rect.h"
 #include "vec2.h"
@@ -9,6 +10,8 @@ class Enemy
 public:
     Enemy(int health, Vec2 size);
     Enemy(const Enemy &blueprint, int range_x);
+
+    void save_to(std::ofstream &out) const;
 
     void render(WINDOW *wgame) const;
 

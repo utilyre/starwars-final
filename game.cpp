@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <random>
 #include <time.h>
+#include <fstream>
 #include "game.h"
 #include "vec2.h"
 #include "bullet.h"
@@ -38,6 +39,7 @@ void Game::start()
     {
         render();
         integrate();
+        save();
 
         if (!input())
         {
@@ -195,4 +197,26 @@ void Game::collide_bullets_with_enemies()
 void Game::shoot()
 {
     m_bullets.emplace_back(Vec2(m_player.translation().y - 1, m_player.translation().x));
+}
+
+void Game::save() const
+{
+    std::ofstream f("state.dat", std::ios::binary);
+
+    f.write(reinterpret_cast<const char *>(&m_size), sizeof(m_size));
+    m_player.save_to(f);
+
+    int bullets_len = m_bullets.size();
+    f.write(reinterpret_cast<char *>(&bullets_len), sizeof(bullets_len));
+    for (const Bullet &bullet : m_bullets)
+    {
+        bullet.save_to(f);
+    }
+
+    int enemies_len = m_enemies.size();
+    f.write(reinterpret_cast<char *>(&enemies_len), sizeof(enemies_len));
+    for (const Enemy &enemy : m_enemies)
+    {
+        enemy.save_to(f);
+    }
 }

@@ -1,12 +1,15 @@
 #pragma once
 
 #include <ncurses.h>
+#include <fstream>
 #include "vec2.h"
 
 class Player
 {
 public:
     Player(int health, Vec2 translation);
+
+    void save_to(std::ofstream &out) const;
 
     void render(WINDOW *wstatus, WINDOW *wgame) const;
 

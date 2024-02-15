@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <fstream>
 #include <random>
 #include "enemy.h"
 
@@ -43,4 +44,10 @@ bool Enemy::is_dead() const
 int Enemy::points() const
 {
     return 2 * m_collision.size.y * m_collision.size.x;
+}
+
+void Enemy::save_to(std::ofstream &out) const
+{
+    out.write(reinterpret_cast<const char *>(&m_health), sizeof(m_health));
+    out.write(reinterpret_cast<const char *>(&m_collision), sizeof(m_collision));
 }

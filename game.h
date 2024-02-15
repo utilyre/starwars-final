@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <ncurses.h>
+#include <fstream>
 #include "vec2.h"
 #include "enemy.h"
 #include "bullet.h"
@@ -27,6 +28,9 @@ private:
     Player m_player;
     std::vector<Bullet> m_bullets;
     std::vector<Enemy> m_enemies;
+
+    void save() const;
+    // void load();
 
     void render() const;
     void integrate();

@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <fstream>
 #include "player.h"
 
 Player::Player(int health, Vec2 translation) : m_health(health), m_score(0), m_translation(translation) {}
@@ -32,4 +33,11 @@ bool Player::is_dead() const
 void Player::take_score(int amount)
 {
     m_score += amount;
+}
+
+void Player::save_to(std::ofstream &out) const
+{
+    out.write(reinterpret_cast<const char *>(&m_health), sizeof(m_health));
+    out.write(reinterpret_cast<const char *>(&m_score), sizeof(m_score));
+    out.write(reinterpret_cast<const char *>(&m_translation), sizeof(m_translation));
 }

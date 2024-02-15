@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <fstream>
 #include "bullet.h"
 
 Bullet::Bullet(Vec2 translation) : m_translation(translation) {}
@@ -16,4 +17,9 @@ void Bullet::move(Vec2 dr)
 Vec2 Bullet::translation() const
 {
     return m_translation;
+}
+
+void Bullet::save_to(std::ofstream &out) const
+{
+    out.write(reinterpret_cast<const char *>(&m_translation), sizeof(m_translation));
 }
