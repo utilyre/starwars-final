@@ -1,10 +1,19 @@
-#include "game.h"
-#include "vec2.h"
+#include <ncurses.h>
+#include <time.h>
+#include <random>
+#include "startup-menu.h"
 
 int main()
 {
-    int size = 20;
-    Game game(size);
+    srand(time(0));
 
-    game.start();
+    initscr();
+    start_color();
+    noecho();
+    curs_set(0);
+
+    StartupMenu menu;
+    menu.start();
+
+    endwin();
 }
