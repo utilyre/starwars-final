@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <time.h>
 #include <random>
-#include "startup-menu.h"
+#include "menu.h"
 
 int main()
 {
@@ -12,7 +12,16 @@ int main()
     noecho();
     curs_set(0);
 
-    StartupMenu menu;
+    Menu menu(
+        20,
+        {
+            MenuItem("Continue", []() {}),
+            MenuItem("New Game", []() {}),
+            MenuItem("Quit", []()
+                     {
+                endwin();
+                exit(0); }),
+        });
     menu.start();
 
     endwin();

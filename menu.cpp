@@ -1,20 +1,24 @@
-#include "startup-menu.h"
+#include <string>
+#include <vector>
+#include "menu.h"
 
-StartupMenu::StartupMenu() : m_selected(0), m_options({"Continue", "New Game", "Quit"})
+MenuItem::MenuItem(std::string name, void (*action)()) : name(name), action(action) {}
+
+Menu::Menu(int width, std::vector<MenuItem> items) : m_width(width), m_selected(0), m_items(items)
 {
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
 
-    m_window = newwin(2 * m_options.size() + 3, 20, (LINES - 2 * m_options.size() - 3) / 2, (COLS - 20) / 2);
+    m_window = newwin(2 * m_items.size() + 3, width + 2, (LINES - 2 * m_items.size() - 3) / 2, (COLS - 20) / 2);
     keypad(m_window, true);
     refresh();
 }
 
-StartupMenu::~StartupMenu()
+Menu::~Menu()
 {
     delwin(m_window);
 }
 
-void StartupMenu::start()
+void Menu::start()
 {
     while (true)
     {
@@ -29,18 +33,18 @@ void StartupMenu::start()
     }
 }
 
-void StartupMenu::render() const
+void Menu::render() const
 {
-    for (std::size_t i = 0; i < m_options.size(); i++)
+    for (std::size_t i = 0; i < m_items.size(); i++)
     {
-        const std::string &option = m_options[i];
+        const MenuItem &item = m_items[i];
 
         if (i == m_selected)
         {
             wattron(m_window, COLOR_PAIR(1));
         }
 
-        mvwprintw(m_window, 2 * (i + 1), (18 - option.size()) / 2, " %s ", option.c_str());
+        mvwprintw(m_window, 2 * (i + 1), (m_width - item.name.size()) / 2, " %s ", item.name.c_str());
 
         if (i == m_selected)
         {
@@ -49,7 +53,7 @@ void StartupMenu::render() const
     }
 }
 
-bool StartupMenu::input()
+bool Menu::input()
 {
     switch (wgetch(m_window))
     {
@@ -61,23 +65,14 @@ bool StartupMenu::input()
 
         break;
     case KEY_DOWN:
-        if (m_selected < m_options.size() - 1)
+        if (m_selected < m_items.size() - 1)
         {
             m_selected++;
         }
 
         break;
     case ' ':
-        switch (m_selected)
-        {
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            return false;
-        }
-
+        m_items[m_selected].action();
         break;
     }
 
