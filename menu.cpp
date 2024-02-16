@@ -75,7 +75,7 @@ bool Menu::input()
         }
 
         break;
-    case ' ':
+    case '\n':
         m_items[m_selected].action();
         break;
     }
