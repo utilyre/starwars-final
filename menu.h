@@ -14,7 +14,7 @@ struct MenuItem {
 class Menu
 {
 public:
-    Menu(int width, std::vector<MenuItem> m_items);
+    Menu(int width, std::string title, std::vector<MenuItem> m_items);
     ~Menu();
 
     void start();
@@ -22,6 +22,8 @@ public:
 private:
     WINDOW *m_window;
     int m_width;
+
+    std::string m_title;
     std::size_t m_selected;
     std::vector<MenuItem> m_items;
 

@@ -13,7 +13,8 @@ int main()
     curs_set(0);
 
     Menu menu(
-        20,
+        25,
+        "StarWars",
         {
             MenuItem("Continue", []() {}),
             MenuItem("New Game", []() {}),
