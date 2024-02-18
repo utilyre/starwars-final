@@ -3,8 +3,11 @@
 #include <random>
 #include "colors.h"
 #include "menu.h"
+#include "game.h"
 
-void quit();
+void action_continue(Menu &menu);
+void action_new(Menu &menu);
+void action_quit(Menu &menu);
 
 int main()
 {
@@ -24,16 +27,28 @@ int main()
         25,
         "StarWars",
         {
-            MenuItem("Continue", []() {}),
-            MenuItem("New Game", []() {}),
-            MenuItem("Quit", quit),
+            MenuItem("Continue", action_continue),
+            MenuItem("New Game", action_new),
+            MenuItem("Quit", action_quit),
         });
     menu.start();
 
     endwin();
 }
 
-void quit()
+void action_continue(Menu &menu)
+{
+    menu.stop();
+
+    Game game(20);
+    game.start();
+}
+
+void action_new(Menu &menu)
+{
+}
+
+void action_quit(Menu &menu)
 {
     endwin();
     exit(0);
