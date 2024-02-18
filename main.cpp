@@ -60,10 +60,10 @@ void action_continue(Menu &menu)
 
 void action_new(Menu &menu)
 {
-    char size_str[2];
+    char size_str[3];
     ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
 
-    char max_score_str[4];
+    char max_score_str[5];
     ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
 
     menu.stop();
