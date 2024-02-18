@@ -7,6 +7,7 @@
 class Player
 {
 public:
+    Player();
     Player(int health, Vec2 translation);
 
     void save_to(std::ofstream &out) const;

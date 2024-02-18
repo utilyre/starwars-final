@@ -54,7 +54,7 @@ void action_continue(Menu &menu)
 {
     menu.stop();
 
-    Game game(20);
+    Game game;
     game.start();
 }
 
@@ -66,8 +66,9 @@ void action_new(Menu &menu)
     char max_score_str[4];
     ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
 
-    Game game(std::atoi(size_str));
     menu.stop();
+
+    Game game(std::atoi(size_str));
     game.start();
 }
 

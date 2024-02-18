@@ -2,6 +2,7 @@
 #include <fstream>
 #include "player.h"
 
+Player::Player() : m_health(1), m_score(0), m_translation() {}
 Player::Player(int health, Vec2 translation) : m_health(health), m_score(0), m_translation(translation) {}
 
 Vec2 Player::translation() const

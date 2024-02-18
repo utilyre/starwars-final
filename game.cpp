@@ -8,12 +8,18 @@
 #include "bullet.h"
 #include "colors.h"
 
+Game::Game()
+{
+    load();
+
+    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 7) / 2, (COLS - 2 * m_size - 3) / 2);
+    m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
+}
+
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
-    m_wstatus = newwin(3, 2 * size + 3, (LINES - size - 7) / 2, (COLS - 2 * size - 3) / 2);
-    m_wgame = newwin(size + 2, 2 * size + 3, (LINES - size - 2) / 2, (COLS - 2 * size - 3) / 2);
-
-    load();
+    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 7) / 2, (COLS - 2 * m_size - 3) / 2);
+    m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
 }
 
 Game::~Game()
