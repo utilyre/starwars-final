@@ -13,13 +13,13 @@ Game::Game() : m_stopped(false)
 {
     load();
 
-    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 7) / 2, (COLS - 2 * m_size - 3) / 2);
+    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 8) / 2, (COLS - 2 * m_size - 3) / 2);
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
 }
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2)), m_stopped(false)
 {
-    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 7) / 2, (COLS - 2 * m_size - 3) / 2);
+    m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 8) / 2, (COLS - 2 * m_size - 3) / 2);
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
 }
 
