@@ -33,6 +33,7 @@ private:
     void integrate();
     bool input();
 
+    void check_gameover();
     void move_bullets();
     void move_enemies();
     void collide_bullets_with_enemies();

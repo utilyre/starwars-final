@@ -7,6 +7,7 @@
 #include "vec2.h"
 #include "bullet.h"
 #include "colors.h"
+#include "menu.h"
 
 Game::Game()
 {
@@ -56,9 +57,12 @@ void Game::render() const
     wclear(m_wgame);
     box(m_wgame, 0, 0);
 
-    wattron(m_wgame, COLOR_PAIR(CP_PLAYER));
-    m_player.render(m_wstatus, m_wgame);
-    wattroff(m_wgame, COLOR_PAIR(CP_PLAYER));
+    if (!m_player.is_dead())
+    {
+        wattron(m_wgame, COLOR_PAIR(CP_PLAYER));
+        m_player.render(m_wstatus, m_wgame);
+        wattroff(m_wgame, COLOR_PAIR(CP_PLAYER));
+    }
 
     wattron(m_wgame, COLOR_PAIR(CP_BULLET));
     for (Bullet bullet : m_bullets)
@@ -80,6 +84,7 @@ void Game::render() const
 
 void Game::integrate()
 {
+    check_gameover();
     move_bullets();
     move_enemies();
     collide_bullets_with_enemies();
@@ -145,11 +150,6 @@ void Game::move_enemies()
             spawn_enemy_randomly();
 
             m_player.take_damage(1);
-            if (m_player.is_dead())
-            {
-                // TODO: gameover
-            }
-
             continue;
         }
 
@@ -251,5 +251,21 @@ void Game::load()
         Enemy enemy;
         enemy.load_from(f);
         m_enemies.push_back(enemy);
+    }
+}
+
+void Game::check_gameover()
+{
+    if (m_player.is_dead())
+    {
+        Menu menu(
+            25,
+            "Game Over!",
+            {
+                MenuItem("Try Again", [](Menu &menu) {}),
+                MenuItem("Quit", [](Menu &menu) {}),
+            });
+
+        menu.start();
     }
 }
