@@ -7,7 +7,7 @@ MenuItem::MenuItem(std::string name, void (*action)(Menu &menu)) : name(name), a
 
 Menu::Menu(int width, std::string title, std::vector<MenuItem> items) : m_width(width), m_title(title), m_selected(0), m_items(items), m_stopped(false)
 {
-    m_window = newwin(2 * m_items.size() + 4, width, (LINES - 2 * m_items.size() - 3) / 2, (COLS - 20) / 2);
+    m_window = newwin(2 * m_items.size() + 4, width, (LINES - 2 * m_items.size() - 4) / 2, (COLS - width) / 2);
     keypad(m_window, true);
     refresh();
 }

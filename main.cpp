@@ -5,6 +5,7 @@
 #include "menu.h"
 #include "game.h"
 #include "utils.h"
+#include "rect.h"
 
 void init();
 void open_menu();
@@ -59,15 +60,14 @@ void action_continue(Menu &menu)
 
 void action_new(Menu &menu)
 {
-    menu.stop();
-
     char size_str[2];
-    inputn(" Size: ", Vec2((LINES - 3) / 2, (COLS - 11) / 2), 2, size_str);
+    ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
 
     char max_score_str[4];
-    inputn(" Max Score: ", Vec2((LINES - 3) / 2, (COLS - 16) / 2), 4, max_score_str);
+    ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
 
     Game game(std::atoi(size_str));
+    menu.stop();
     game.start();
 }
 

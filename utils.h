@@ -1,3 +1,3 @@
-#include "vec2.h"
+#include "rect.h"
 
-void inputn(const char *prompt, Vec2 translation, int n, char *s);
+void ninput(const char *prompt, Rect r, int n, char *s);
