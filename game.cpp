@@ -9,7 +9,7 @@
 #include "colors.h"
 #include "menu.h"
 
-Game::Game() : m_stopped(false)
+Game::Game() : m_already_won(false), m_stopped(false)
 {
     load();
 
@@ -17,7 +17,7 @@ Game::Game() : m_stopped(false)
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
 }
 
-Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2)), m_stopped(false)
+Game::Game(int size, int max_score) : m_size(size), m_max_score(max_score), m_player(3, Vec2(size - 1, size / 2)), m_already_won(false), m_stopped(false)
 {
     m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 8) / 2, (COLS - 2 * m_size - 3) / 2);
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
@@ -94,6 +94,7 @@ void Game::render() const
 
 void Game::integrate()
 {
+    check_win();
     check_gameover();
     move_bullets();
     move_enemies();
@@ -215,6 +216,7 @@ void Game::save() const
     std::ofstream f("state.dat", std::ios::binary);
 
     f.write(reinterpret_cast<const char *>(&m_size), sizeof(m_size));
+    f.write(reinterpret_cast<const char *>(&m_max_score), sizeof(m_max_score));
 
     m_player.save_to(f);
 
@@ -242,6 +244,7 @@ void Game::load()
     }
 
     f.read(reinterpret_cast<char *>(&m_size), sizeof(m_size));
+    f.read(reinterpret_cast<char *>(&m_max_score), sizeof(m_max_score));
 
     m_player.load_from(f);
 
@@ -279,6 +282,7 @@ void Game::check_gameover()
                     m_player = Player(3, Vec2(m_size - 1, m_size / 2));
                     m_bullets.clear();
                     m_enemies.clear();
+                    m_already_won = false;
 
                     spawn_enemy_randomly();
                     render(); }),
@@ -287,6 +291,26 @@ void Game::check_gameover()
                     menu.stop();
                     stop(); }),
             });
+
+        menu.start();
+    }
+}
+
+void Game::check_win()
+{
+    if (!m_already_won && m_player.score() >= m_max_score)
+    {
+        Menu menu(
+            25,
+            "You Won!",
+            {MenuItem("Resume", [&](Menu &menu)
+                      {
+                        m_already_won = true;
+                        menu.stop(); }),
+             MenuItem("Quit", [&](Menu &menu)
+                      {
+                    menu.stop();
+                    stop(); })});
 
         menu.start();
     }

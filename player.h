@@ -16,6 +16,7 @@ public:
     void render(WINDOW *wstatus, WINDOW *wgame) const;
 
     bool is_dead() const;
+    int score() const;
     Vec2 translation() const;
 
     void take_damage(int amount);

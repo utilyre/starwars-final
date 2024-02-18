@@ -13,7 +13,7 @@ class Game
 {
 public:
     Game();
-    Game(int size);
+    Game(int size, int max_score);
     ~Game();
 
     void start();
@@ -24,10 +24,12 @@ private:
     WINDOW *m_wstatus;
     WINDOW *m_wgame;
 
+    int m_max_score;
     Player m_player;
     std::vector<Bullet> m_bullets;
     std::vector<Enemy> m_enemies;
 
+    bool m_already_won;
     bool m_stopped;
 
     void save() const;
@@ -37,6 +39,7 @@ private:
     void integrate();
     bool input();
 
+    void check_win();
     void check_gameover();
     void move_bullets();
     void move_enemies();

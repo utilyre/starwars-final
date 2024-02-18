@@ -49,3 +49,8 @@ void Player::load_from(std::ifstream &in)
     in.read(reinterpret_cast<char *>(&m_score), sizeof(m_score));
     in.read(reinterpret_cast<char *>(&m_translation), sizeof(m_translation));
 }
+
+int Player::score() const
+{
+    return m_score;
+}

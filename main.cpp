@@ -66,16 +66,19 @@ void action_new(Menu &menu)
     {
         char size_str[3];
         ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
-
         size = std::atoi(size_str);
     } while (size < 15);
 
-    char max_score_str[5];
-    ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
-    int max_score = std::atoi(max_score_str);
+    int max_score;
+    do
+    {
+        char max_score_str[5];
+        ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
+        max_score = std::atoi(max_score_str);
+    } while (max_score <= 0);
 
     menu.stop();
-    Game game(size);
+    Game game(size, max_score);
     game.start();
 }
 
