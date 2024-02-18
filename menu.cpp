@@ -3,9 +3,9 @@
 #include "menu.h"
 #include "colors.h"
 
-MenuItem::MenuItem(std::string name, void (*action)()) : name(name), action(action) {}
+MenuItem::MenuItem(std::string name, void (*action)(Menu &menu)) : name(name), action(action) {}
 
-Menu::Menu(int width, std::string title, std::vector<MenuItem> items) : m_width(width), m_title(title), m_selected(0), m_items(items)
+Menu::Menu(int width, std::string title, std::vector<MenuItem> items) : m_width(width), m_title(title), m_selected(0), m_items(items), m_stopped(false)
 {
     m_window = newwin(2 * m_items.size() + 4, width, (LINES - 2 * m_items.size() - 3) / 2, (COLS - 20) / 2);
     keypad(m_window, true);
@@ -21,8 +21,10 @@ void Menu::start()
 {
     while (true)
     {
-        wclear(m_window);
-        box(m_window, 0, 0);
+        if (m_stopped)
+        {
+            return;
+        }
 
         render();
         if (!input())
@@ -32,8 +34,20 @@ void Menu::start()
     }
 }
 
+void Menu::stop()
+{
+    m_stopped = true;
+
+    wclear(m_window);
+    wrefresh(m_window);
+    delwin(m_window);
+}
+
 void Menu::render() const
 {
+    wclear(m_window);
+    box(m_window, 0, 0);
+
     wattron(m_window, A_BOLD);
     mvwprintw(m_window, 1, (m_width - m_title.size()) / 2, "%s", m_title.c_str());
     wattroff(m_window, A_BOLD);
@@ -75,7 +89,7 @@ bool Menu::input()
 
         break;
     case '\n':
-        m_items[m_selected].action();
+        m_items[m_selected].action(*this);
         break;
     }
 

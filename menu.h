@@ -4,11 +4,13 @@
 #include <vector>
 #include <string>
 
+class Menu;
+
 struct MenuItem {
     std::string name;
-    void (*action)();
+    void (*action)(Menu &menu);
 
-    MenuItem(std::string name, void (*action)());
+    MenuItem(std::string name, void (*action)(Menu &menu));
 };
 
 class Menu
@@ -18,6 +20,7 @@ public:
     ~Menu();
 
     void start();
+    void stop();
 
 private:
     WINDOW *m_window;
@@ -26,6 +29,8 @@ private:
     std::string m_title;
     std::size_t m_selected;
     std::vector<MenuItem> m_items;
+
+    bool m_stopped;
 
     void render() const;
     bool input();
