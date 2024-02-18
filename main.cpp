@@ -61,11 +61,11 @@ void action_new(Menu &menu)
 {
     menu.stop();
 
-    char size_str[8];
-    inputn("Size:", Vec2((LINES - 3) / 2, (COLS - 8) / 2), 8, size_str);
+    char size_str[2];
+    inputn(" Size: ", Vec2((LINES - 3) / 2, (COLS - 11) / 2), 2, size_str);
 
-    char max_score_str[16];
-    inputn("Max Score:", Vec2((LINES - 3) / 2, (COLS - 16) / 2), 16, max_score_str);
+    char max_score_str[4];
+    inputn(" Max Score: ", Vec2((LINES - 3) / 2, (COLS - 16) / 2), 4, max_score_str);
 
     Game game(std::atoi(size_str));
     game.start();
