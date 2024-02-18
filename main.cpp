@@ -75,7 +75,7 @@ void action_new(Menu &menu)
         char size_str[3];
         ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
         size = std::atoi(size_str);
-    } while (size < 15);
+    } while (size < 15 || size >= LINES - 7 || size >= COLS - 4);
 
     int max_score;
     do
