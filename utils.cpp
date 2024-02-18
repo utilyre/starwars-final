@@ -17,5 +17,7 @@ void ninput(const char *prompt, Rect r, int n, char *s)
     noecho();
     curs_set(0);
 
+    wclear(win);
+    wrefresh(win);
     delwin(win);
 }
