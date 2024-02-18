@@ -43,7 +43,4 @@ private:
     void collide_bullets_with_enemies();
     void spawn_enemy_randomly();
     void shoot();
-
-    void gameover_action_try_again(Menu &menu);
-    void gameover_action_quit(Menu &menu);
 };
