@@ -7,6 +7,7 @@
 #include "utils.h"
 #include "rect.h"
 #include <string.h>
+#include <fstream>
 
 void init();
 void open_menu();
@@ -53,6 +54,13 @@ void open_menu()
 
 void action_continue(Menu &menu)
 {
+    std::ifstream f("state.dat");
+    if (!f.is_open())
+    {
+        return;
+    }
+    f.close();
+
     menu.stop();
 
     Game game;
