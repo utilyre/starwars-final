@@ -22,13 +22,9 @@ void Menu::start()
 {
     while (true)
     {
-        if (m_stopped)
-        {
-            return;
-        }
-
         render();
-        if (!input())
+
+        if (m_stopped || !input())
         {
             return;
         }
