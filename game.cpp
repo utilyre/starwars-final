@@ -233,6 +233,8 @@ void Game::save() const
     {
         enemy.save_to(f);
     }
+
+    f.write(reinterpret_cast<const char *>(&m_already_won), sizeof(m_already_won));
 }
 
 void Game::load()
@@ -265,6 +267,8 @@ void Game::load()
         enemy.load_from(f);
         m_enemies.push_back(enemy);
     }
+
+    f.read(reinterpret_cast<char *>(&m_already_won), sizeof(m_already_won));
 }
 
 void Game::check_gameover()
