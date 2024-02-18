@@ -2,8 +2,9 @@
 #include <vector>
 #include "menu.h"
 #include "colors.h"
+#include <functional>
 
-MenuItem::MenuItem(std::string name, void (*action)(Menu &menu)) : name(name), action(action) {}
+MenuItem::MenuItem(std::string name, std::function<void(Menu &)> action) : name(name), action(action) {}
 
 Menu::Menu(int width, std::string title, std::vector<MenuItem> items) : m_width(width), m_title(title), m_selected(0), m_items(items), m_stopped(false)
 {
@@ -40,7 +41,6 @@ void Menu::stop()
 
     wclear(m_window);
     wrefresh(m_window);
-    delwin(m_window);
 }
 
 void Menu::render() const

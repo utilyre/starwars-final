@@ -3,14 +3,16 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <functional>
 
 class Menu;
 
-struct MenuItem {
+struct MenuItem
+{
     std::string name;
-    void (*action)(Menu &menu);
+    std::function<void(Menu &)> action;
 
-    MenuItem(std::string name, void (*action)(Menu &menu));
+    MenuItem(std::string name, std::function<void(Menu &)>);
 };
 
 class Menu

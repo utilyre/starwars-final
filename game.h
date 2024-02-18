@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "player.h"
+#include "menu.h"
 
 class Game
 {
@@ -16,6 +17,7 @@ public:
     ~Game();
 
     void start();
+    void stop();
 
 private:
     int m_size;
@@ -25,6 +27,8 @@ private:
     Player m_player;
     std::vector<Bullet> m_bullets;
     std::vector<Enemy> m_enemies;
+
+    bool m_stopped;
 
     void save() const;
     void load();
@@ -39,4 +43,7 @@ private:
     void collide_bullets_with_enemies();
     void spawn_enemy_randomly();
     void shoot();
+
+    void gameover_action_try_again(Menu &menu);
+    void gameover_action_quit(Menu &menu);
 };

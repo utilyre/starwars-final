@@ -9,7 +9,7 @@
 #include "colors.h"
 #include "menu.h"
 
-Game::Game()
+Game::Game() : m_stopped(false)
 {
     load();
 
@@ -17,7 +17,7 @@ Game::Game()
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
 }
 
-Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
+Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2)), m_stopped(false)
 {
     m_wstatus = newwin(3, 2 * m_size + 3, (LINES - m_size - 7) / 2, (COLS - 2 * m_size - 3) / 2);
     m_wgame = newwin(m_size + 2, 2 * m_size + 3, (LINES - m_size - 2) / 2, (COLS - 2 * m_size - 3) / 2);
@@ -27,7 +27,6 @@ Game::~Game()
 {
     delwin(m_wgame);
     delwin(m_wstatus);
-    endwin();
 }
 
 void Game::start()
@@ -39,15 +38,26 @@ void Game::start()
 
     while (true)
     {
+
         render();
         integrate();
         save();
 
-        if (!input())
+        if (m_stopped || !input())
         {
             return;
         }
     }
+}
+
+void Game::stop()
+{
+    m_stopped = true;
+
+    wclear(m_wstatus);
+    wrefresh(m_wstatus);
+    wclear(m_wgame);
+    wrefresh(m_wgame);
 }
 
 void Game::render() const
@@ -262,8 +272,20 @@ void Game::check_gameover()
             25,
             "Game Over!",
             {
-                MenuItem("Try Again", [](Menu &menu) {}),
-                MenuItem("Quit", [](Menu &menu) {}),
+                MenuItem("Try Again", [&](Menu &menu)
+                         {
+                    menu.stop();
+
+                    m_player = Player(3, Vec2(m_size - 1, m_size / 2));
+                    m_bullets.clear();
+                    m_enemies.clear();
+
+                    spawn_enemy_randomly();
+                    render(); }),
+                MenuItem("Quit", [&](Menu &menu)
+                         {
+                    menu.stop();
+                    stop(); }),
             });
 
         menu.start();
