@@ -67,10 +67,12 @@ void Game::render() const
     wclear(m_wgame);
     box(m_wgame, 0, 0);
 
+    mvwprintw(m_wstatus, 1, 1, "health: %d  score: %d/%d", m_player.health(), m_player.score(), m_max_score);
+
     if (!m_player.is_dead())
     {
         wattron(m_wgame, COLOR_PAIR(CP_PLAYER));
-        m_player.render(m_wstatus, m_wgame);
+        m_player.render(m_wgame);
         wattroff(m_wgame, COLOR_PAIR(CP_PLAYER));
     }
 

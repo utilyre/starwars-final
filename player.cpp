@@ -10,9 +10,8 @@ Vec2 Player::translation() const
     return m_translation;
 }
 
-void Player::render(WINDOW *wstatus, WINDOW *wgame) const
+void Player::render(WINDOW *wgame) const
 {
-    mvwprintw(wstatus, 1, 1, "health: %d  score: %d", m_health, m_score);
     mvwprintw(wgame, m_translation.y + 1, 2 * m_translation.x + 2, "#");
 }
 
@@ -53,4 +52,9 @@ void Player::load_from(std::ifstream &in)
 int Player::score() const
 {
     return m_score;
+}
+
+int Player::health() const
+{
+    return m_health;
 }

@@ -13,9 +13,10 @@ public:
     void save_to(std::ofstream &out) const;
     void load_from(std::ifstream &in);
 
-    void render(WINDOW *wstatus, WINDOW *wgame) const;
+    void render(WINDOW *wgame) const;
 
     bool is_dead() const;
+    int health() const;
     int score() const;
     Vec2 translation() const;
 
