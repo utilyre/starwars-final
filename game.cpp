@@ -6,20 +6,10 @@
 #include "game.h"
 #include "vec2.h"
 #include "bullet.h"
+#include "colors.h"
 
 Game::Game(int size) : m_size(size), m_player(3, Vec2(size - 1, size / 2))
 {
-    srand(time(0));
-
-    initscr();
-    start_color();
-    noecho();
-    curs_set(0);
-
-    init_pair(CP_PLAYER, COLOR_BLUE, COLOR_BLACK);
-    init_pair(CP_BULLET, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(CP_ENEMY, COLOR_RED, COLOR_BLACK);
-
     m_wstatus = newwin(3, 2 * size + 3, (LINES - size - 7) / 2, (COLS - 2 * size - 3) / 2);
     m_wgame = newwin(size + 2, 2 * size + 3, (LINES - size - 2) / 2, (COLS - 2 * size - 3) / 2);
 

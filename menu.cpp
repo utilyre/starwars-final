@@ -1,13 +1,12 @@
 #include <string>
 #include <vector>
 #include "menu.h"
+#include "colors.h"
 
 MenuItem::MenuItem(std::string name, void (*action)()) : name(name), action(action) {}
 
 Menu::Menu(int width, std::string title, std::vector<MenuItem> items) : m_width(width), m_title(title), m_selected(0), m_items(items)
 {
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
-
     m_window = newwin(2 * m_items.size() + 4, width, (LINES - 2 * m_items.size() - 3) / 2, (COLS - 20) / 2);
     keypad(m_window, true);
     refresh();
@@ -45,14 +44,14 @@ void Menu::render() const
 
         if (i == m_selected)
         {
-            wattron(m_window, COLOR_PAIR(1));
+            wattron(m_window, COLOR_PAIR(CP_SELECTED));
         }
 
         mvwprintw(m_window, 2 * i + 3, (m_width - item.name.size() - 2) / 2, " %s ", item.name.c_str());
 
         if (i == m_selected)
         {
-            wattroff(m_window, COLOR_PAIR(1));
+            wattroff(m_window, COLOR_PAIR(CP_SELECTED));
         }
     }
 }
