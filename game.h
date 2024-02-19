@@ -34,6 +34,7 @@ private:
 
     void save() const;
     void load();
+    void reset();
 
     void render() const;
     void integrate();

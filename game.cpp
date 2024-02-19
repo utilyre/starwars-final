@@ -284,13 +284,7 @@ void Game::check_gameover()
                 MenuItem("Try Again", [&](Menu &menu)
                          {
                     menu.stop();
-
-                    m_player = Player(3, Vec2(m_size - 1, m_size / 2));
-                    m_bullets.clear();
-                    m_enemies.clear();
-                    m_already_won = false;
-
-                    spawn_enemy_randomly();
+                    reset();
                     render(); }),
                 MenuItem("Quit", [&](Menu &menu)
                          {
@@ -300,6 +294,16 @@ void Game::check_gameover()
 
         menu.start();
     }
+}
+
+void Game::reset()
+{
+    m_player = Player(3, Vec2(m_size - 1, m_size / 2));
+    m_bullets.clear();
+    m_enemies.clear();
+    m_already_won = false;
+
+    spawn_enemy_randomly();
 }
 
 void Game::check_win()
@@ -313,6 +317,11 @@ void Game::check_win()
                       {
                         m_already_won = true;
                         menu.stop(); }),
+             MenuItem("Try Again", [&](Menu &menu)
+                      {
+                    menu.stop();
+                    reset();
+                    render(); }),
              MenuItem("Quit", [&](Menu &menu)
                       {
                     menu.stop();
