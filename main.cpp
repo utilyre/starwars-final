@@ -12,10 +12,6 @@
 void init();
 void open_menu();
 
-void action_continue(Menu &menu);
-void action_new(Menu &menu);
-void action_quit(Menu &menu);
-
 int main()
 {
     init();
@@ -44,54 +40,47 @@ void open_menu()
         25,
         "StarWars",
         {
-            MenuItem("Continue", action_continue),
-            MenuItem("New Game", action_new),
-            MenuItem("Quit", action_quit),
+            MenuItem("Continue", [](Menu &menu)
+                     {
+                        std::ifstream f("state.dat");
+                        if (!f.is_open())
+                        {
+                            return;
+                        }
+                        f.close();
+
+                        menu.stop();
+
+                        Game game;
+                        game.start(); }),
+
+            MenuItem("New Game", [](Menu &menu)
+                     {
+                        int size;
+                        do
+                        {
+                            char size_str[3];
+                            ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
+                            size = std::atoi(size_str);
+                        } while (size < 15 || size >= LINES - 7 || size >= COLS - 4);
+
+                        int max_score;
+                        do
+                        {
+                            char max_score_str[5];
+                            ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
+                            max_score = std::atoi(max_score_str);
+                        } while (max_score <= 0);
+
+                        menu.stop();
+                        Game game(size, max_score);
+                        game.start(); }),
+
+            MenuItem("Quit", [](Menu &menu)
+                     {
+                        endwin();
+                        exit(0); }),
         });
 
     menu.start();
-}
-
-void action_continue(Menu &menu)
-{
-    std::ifstream f("state.dat");
-    if (!f.is_open())
-    {
-        return;
-    }
-    f.close();
-
-    menu.stop();
-
-    Game game;
-    game.start();
-}
-
-void action_new(Menu &menu)
-{
-    int size;
-    do
-    {
-        char size_str[3];
-        ninput(" Size: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 2, size_str);
-        size = std::atoi(size_str);
-    } while (size < 15 || size >= LINES - 7 || size >= COLS - 4);
-
-    int max_score;
-    do
-    {
-        char max_score_str[5];
-        ninput(" Max Score: ", Rect(3, 48, (LINES - 3) / 2, (COLS - 48) / 2), 4, max_score_str);
-        max_score = std::atoi(max_score_str);
-    } while (max_score <= 0);
-
-    menu.stop();
-    Game game(size, max_score);
-    game.start();
-}
-
-void action_quit(Menu &menu)
-{
-    endwin();
-    exit(0);
 }
