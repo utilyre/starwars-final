@@ -9,7 +9,14 @@
 #include <string.h>
 #include <fstream>
 
+/**
+ * Initialize libraries.
+ */
 void init();
+
+/**
+ * Open the main menu.
+ */
 void open_menu();
 
 int main()
