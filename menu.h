@@ -6,14 +6,7 @@
 #include <functional>
 
 class Menu;
-
-struct MenuItem
-{
-    std::string name;
-    std::function<void(Menu &)> action;
-
-    MenuItem(std::string name, std::function<void(Menu &)>);
-};
+class MenuItem;
 
 class Menu
 {
@@ -36,4 +29,12 @@ private:
 
     void render() const;
     bool input();
+};
+
+struct MenuItem
+{
+    std::string name;
+    std::function<void(Menu &)> action;
+
+    MenuItem(std::string name, std::function<void(Menu &)>);
 };
