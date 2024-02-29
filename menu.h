@@ -6,7 +6,7 @@
 #include <functional>
 
 class Menu;
-class MenuItem;
+struct MenuItem;
 
 /**
  * Terminal menu interface powered by `ncurses`.
